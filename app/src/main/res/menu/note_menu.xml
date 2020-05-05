@@ -5,6 +5,11 @@
     <item
         android:id="@+id/addNote"
         android:icon="@drawable/addnote"
-        android:title="Add"
+        android:title="Add Note"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/refreshButtonMenu"
+        android:icon="@drawable/refreshmenubutton"
+        android:title="Refresh"
         app:showAsAction="always" />
 </menu>
