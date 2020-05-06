@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         DB = this.openOrCreateDatabase("Note",MODE_PRIVATE,null);
 //        DB.execSQL("Drop table Note");
         DB.execSQL("create table if not exists Note(Title varchar primary key, Description varchar, Priority varchar)");
-//        DB.execSQL("delete from Note");
+
         // retrieve data
         Cursor c = DB.rawQuery("select * from Note",null);
         c.moveToFirst();
@@ -57,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
         String noteTitle = "";
         String noteDescription = "";
         String notePriority = "";
+
+
+
+       // int ix35 =0 ;
         while(c.moveToNext()){
+       //     if (ix35 ==0)
+           //     c.moveToFirst();
             noteTitle = c.getString(title);
             noteDescription = c.getString(description);
             notePriority = c.getString(priority);
@@ -76,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
             }
 //            list.add(note);
 //            titlelist.add(noteTitle);
-            c.moveToNext();
+          //  c.moveToNext();
+         //   ix35++;
         }
 
         list.addAll(high);
@@ -107,12 +114,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.addNote){
-            //goto Add Note activity
-            startActivity(new Intent(this,AddNoteActivity.class));
-        }else if(item.getItemId() == R.id.refreshButtonMenu){
-            Toast.makeText(this, "List Refreshed", Toast.LENGTH_SHORT).show();
-            listAdapter.notifyDataSetChanged();
+
+        switch (item.getItemId()) {
+            case R.id.addNote:
+                //goto Add Note activity
+                startActivity(new Intent(this, AddNoteActivity.class));
+                break;
+            case R.id.refreshButtonMenu:
+                init();
+                Toast.makeText(this, "List Refreshed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.clearAll:
+                DB.execSQL("delete from Note");
+                break;
         }
 
         return super.onOptionsItemSelected(item);
