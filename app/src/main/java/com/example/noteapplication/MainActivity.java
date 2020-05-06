@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // initialize Offline DB
         DB = this.openOrCreateDatabase("Note",MODE_PRIVATE,null);
 //        DB.execSQL("Drop table Note");
-        DB.execSQL("create table if not exists Note(Title varchar primary key, Description varchar, Priority varchar)");
+        DB.execSQL("create table if not exists Note(Title varchar , Description varchar, Priority varchar)");
 
         // retrieve data
         Cursor c = DB.rawQuery("select * from Note",null);
@@ -60,10 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-       // int ix35 =0 ;
+
         while(c.moveToNext()){
-       //     if (ix35 ==0)
-           //     c.moveToFirst();
             noteTitle = c.getString(title);
             noteDescription = c.getString(description);
             notePriority = c.getString(priority);
@@ -83,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
 //            list.add(note);
 //            titlelist.add(noteTitle);
           //  c.moveToNext();
-         //   ix35++;
         }
 
         list.addAll(high);
