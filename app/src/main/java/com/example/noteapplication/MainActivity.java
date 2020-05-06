@@ -3,6 +3,8 @@ package com.example.noteapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,19 +13,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
     private static SQLiteDatabase DB;
     private ArrayList<Note> list,high,low,mid;
     private ArrayList<String> titlelist;
     private ArrayAdapter listAdapter;
     private ListView listView;
     private static final String TAG = "MainActivity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // initialize Offline DB
         DB = this.openOrCreateDatabase("Note",MODE_PRIVATE,null);
 //        DB.execSQL("Drop table Note");
-        DB.execSQL("create table if not exists Note(Title varchar primary key, Description varchar, Priority varchar)");
+        DB.execSQL("create table if not exists Note(Title varchar , Description varchar, Priority varchar)");
 //        DB.execSQL("delete from Note");
         // retrieve data
         Cursor c = DB.rawQuery("select * from Note",null);
@@ -76,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
             }
 //            list.add(note);
 //            titlelist.add(noteTitle);
-            c.moveToNext();
+//            c.moveToNext();
         }
+
 
         list.addAll(high);
         list.addAll(mid);
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,titlelist);
         listView = findViewById(R.id.listview);
         listView.setAdapter(listAdapter);
-
+        listView.setOnItemLongClickListener(this);
         Log.d(TAG, "init: Success");
 
     }
@@ -136,5 +143,30 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList getMid() {
         return mid;
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Alert")
+                .setMessage("You are trying to delete this note, is that right?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       DB.execSQL("delete from Note where Title=? and Description=? and priority=?",new String[]{titlelist.get(position),list.get(position).getDescription(),list.get(position).getPriority()});
+                       list.remove(position);
+                       titlelist.remove(position);
+                        Toast.makeText(MainActivity.this, "Note Deleted, Please Refresh", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+        return false;
     }
 }
