@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         DB = this.openOrCreateDatabase("Note",MODE_PRIVATE,null);
 //        DB.execSQL("Drop table Note");
         DB.execSQL("create table if not exists Note(Title varchar , Description varchar, Priority varchar)");
+
 //        DB.execSQL("delete from Note");
+
         // retrieve data
         Cursor c = DB.rawQuery("select * from Note",null);
         c.moveToFirst();
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String noteTitle = "";
         String noteDescription = "";
         String notePriority = "";
+
+
+
+
         while(c.moveToNext()){
             noteTitle = c.getString(title);
             noteDescription = c.getString(description);
@@ -82,7 +88,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 //            list.add(note);
 //            titlelist.add(noteTitle);
+
+          //  c.moveToNext();
+
 //            c.moveToNext();
+
         }
 
 
@@ -114,12 +124,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.addNote){
-            //goto Add Note activity
-            startActivity(new Intent(this,AddNoteActivity.class));
-        }else if(item.getItemId() == R.id.refreshButtonMenu){
-            Toast.makeText(this, "List Refreshed", Toast.LENGTH_SHORT).show();
-            listAdapter.notifyDataSetChanged();
+
+        switch (item.getItemId()) {
+            case R.id.addNote:
+                //goto Add Note activity
+                startActivity(new Intent(this, AddNoteActivity.class));
+                break;
+            case R.id.refreshButtonMenu:
+                init();
+                Toast.makeText(this, "List Refreshed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.clearAll:
+                DB.execSQL("delete from Note");
+                break;
         }
 
         return super.onOptionsItemSelected(item);
