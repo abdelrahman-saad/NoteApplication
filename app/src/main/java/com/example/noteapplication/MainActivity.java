@@ -1,8 +1,5 @@
 package com.example.noteapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,11 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
     private static SQLiteDatabase DB;
-    private ArrayList<Note> list,high,low,mid;
+    private ArrayList<Note> list, high, low, mid;
     private ArrayList<String> titlelist;
     private ArrayAdapter listAdapter;
     private ListView listView;
@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         titlelist = new ArrayList<>();
 
         // initialize Offline DB
-        DB = this.openOrCreateDatabase("Note",MODE_PRIVATE,null);
+        DB = this.openOrCreateDatabase("Note", MODE_PRIVATE, null);
 //        DB.execSQL("Drop table Note");
         DB.execSQL("create table if not exists Note(Title varchar , Description varchar, Priority varchar)");
 
 //        DB.execSQL("delete from Note");
 
         // retrieve data
-        Cursor c = DB.rawQuery("select * from Note",null);
+        Cursor c = DB.rawQuery("select * from Note", null);
         c.moveToFirst();
 
         int title = c.getColumnIndex("Title");
@@ -67,29 +67,44 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String notePriority = "";
 
 
+  /*      noteTitle = c.getString(title);
+        noteDescription = c.getString(description);
+        notePriority = c.getString(priority);
+        Note note = new Note(noteTitle, noteDescription, notePriority);
+        switch (notePriority) {
+            case "HIGH":
+                high.add(note);
+                break;
+            case "MID":
+                mid.add(note);
+                break;
+            case "LOW":
+                low.add(note);
+                break;
+            default:
+        }*/
 
-
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             noteTitle = c.getString(title);
             noteDescription = c.getString(description);
             notePriority = c.getString(priority);
-            Note note = new Note(noteTitle, noteDescription, notePriority);
+            Note note1 = new Note(noteTitle, noteDescription, notePriority);
             switch (notePriority) {
                 case "HIGH":
-                    high.add(note);
+                    high.add(note1);
                     break;
                 case "MID":
-                    mid.add(note);
+                    mid.add(note1);
                     break;
                 case "LOW":
-                    low.add(note);
+                    low.add(note1);
                     break;
-                    default:
+                default:
             }
 //            list.add(note);
 //            titlelist.add(noteTitle);
 
-          //  c.moveToNext();
+            //  c.moveToNext();
 
 //            c.moveToNext();
 
@@ -102,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //get items by priority
 
-        for (int i = 0; i<list.size();i++) titlelist.add(list.get(i).getTitle());
+        for (int i = 0; i < list.size(); i++) titlelist.add(list.get(i).getTitle());
 
         // initialize list Adapter
 
-        listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,titlelist);
+        listAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, titlelist);
         listView = findViewById(R.id.listview);
         listView.setAdapter(listAdapter);
         listView.setOnItemLongClickListener(this);
@@ -117,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.note_menu,menu);
+        inflater.inflate(R.menu.note_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -170,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       DB.execSQL("delete from Note where Title=? and Description=? and priority=?",new String[]{titlelist.get(position),list.get(position).getDescription(),list.get(position).getPriority()});
-                       list.remove(position);
-                       titlelist.remove(position);
+                        DB.execSQL("delete from Note where Title=? and Description=? and priority=?", new String[]{titlelist.get(position), list.get(position).getDescription(), list.get(position).getPriority()});
+                        list.remove(position);
+                        titlelist.remove(position);
                         Toast.makeText(MainActivity.this, "Note Deleted, Please Refresh", Toast.LENGTH_SHORT).show();
                     }
                 })
