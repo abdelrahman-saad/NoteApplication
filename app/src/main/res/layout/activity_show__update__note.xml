@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddNoteActivity">
+    tools:context=".Show_Update_Note">
 
     <TextView
         android:id="@+id/noteDescText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Add Note"
+        android:text="View Note"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/noteTitleView"
+        android:id="@+id/noteTitleViewUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Title "
+        android:hint="Title"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteDescText" />
 
     <EditText
-        android:id="@+id/noteDescriptionView"
+        android:id="@+id/noteDescriptionViewUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -42,28 +42,27 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/noteTitleView"
-        app:layout_constraintTop_toBottomOf="@+id/noteTitleView" />
+        app:layout_constraintStart_toStartOf="@+id/noteTitleViewUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/noteTitleViewUpdate" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerUpdate"
         android:layout_width="206dp"
         android:layout_height="47dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/noteDescriptionView"
+        app:layout_constraintEnd_toEndOf="@+id/noteDescriptionViewUpdate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/noteDescriptionView"
-        app:layout_constraintTop_toBottomOf="@+id/noteDescriptionView" />
+        app:layout_constraintTop_toBottomOf="@+id/noteDescriptionViewUpdate" />
 
     <Button
         android:id="@+id/addNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:onClick="addNote"
-        android:text="Add Note"
+        android:onClick="editSaveButton"
+        android:text="EDIT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
