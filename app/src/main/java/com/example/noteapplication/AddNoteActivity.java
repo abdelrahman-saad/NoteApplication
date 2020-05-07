@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
     public class AddNoteActivity extends AppCompatActivity {
-    private String[] priorityList = {"HIGH","MID","LOW"};
+    private static String[] priorityList = {"HIGH","MID","LOW"};
     private TextView title;
     private TextView description;
     private Spinner spinner;
@@ -49,4 +49,7 @@ import android.widget.Toast;
         }
     }
 
-}
+        public static String[] getPriorityList() {
+            return priorityList;
+        }
+    }
