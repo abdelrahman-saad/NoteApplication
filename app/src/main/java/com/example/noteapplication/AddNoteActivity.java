@@ -47,19 +47,8 @@ View back;
         back = findViewById(R.id.beckground);
         CreateNotification();
         init();
+    }
 
-       // hideKeyboardFrom(this,back);
-    }
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
     public void hideKeyboardFrom( View view) {
         Context context = this;
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -135,7 +124,9 @@ View back;
         }
 
         Intent myIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
+        myIntent.putExtra("title",title.getText());
+        myIntent.putExtra("description",description.getText());
+       PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert manager != null;
         manager.set(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), pendingIntent);
