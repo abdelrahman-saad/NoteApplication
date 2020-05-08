@@ -124,8 +124,10 @@ View back;
         }
 
         Intent myIntent = new Intent(this, AlarmReceiver.class);
-        myIntent.putExtra("title",title.getText());
-        myIntent.putExtra("description",description.getText());
+//        String title_text= title.getText().toString();
+//        String Description_text= description.getText().toString();
+        myIntent.putExtra("title",title.getText().toString());
+        myIntent.putExtra("description",description.getText().toString());
        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert manager != null;
