@@ -1,14 +1,20 @@
 package com.example.noteapplication;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -33,16 +39,32 @@ public class AddNoteActivity extends AppCompatActivity {
     public int Adate;
     public int Ahour;
     public int Aminute;
-
+View back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-
+        back = findViewById(R.id.beckground);
+        CreateNotification();
         init();
 
+       // hideKeyboardFrom(this,back);
     }
-
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    public void hideKeyboardFrom( View view) {
+        Context context = this;
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
     public void SetDate(View view) {
         //  startActivity(new Intent(this, timer_date.class));
         final Calendar calendar = Calendar.getInstance();
@@ -52,10 +74,12 @@ public class AddNoteActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            int  oneBasedMOnth = Integer.valueOf(month);
+            oneBasedMOnth++;
                 Ayear = year;
                 Amonth = month;
                 Adate = dayOfMonth;
-                String ChosenDate = year + " " + month + " " + dayOfMonth;
+                String ChosenDate = year + " " + oneBasedMOnth + " " + dayOfMonth;
                 DateText.setText(ChosenDate);
             }
         }, YEAR, MONTH, DATE);
@@ -77,11 +101,22 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         }, HOUR, MINUTE, is24HourFormat);
         timePickerDialog.show();
-        SetAlarm();
+    }
+    public void CreateNotification() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.BASE){
+            CharSequence name = "MY NOTE APP";
+            String description = "this is our reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notify note",name , importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
-    public void SetAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+    @SuppressLint("ObsoleteSdkInt")
+    public void SetAlarm(View view) {
+
         Date dat = new Date();
         Calendar cal_alarm = Calendar.getInstance();
         Calendar cal_now = Calendar.getInstance();
@@ -101,9 +136,12 @@ public class AddNoteActivity extends AppCompatActivity {
 
         Intent myIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
-
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        assert manager != null;
         manager.set(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), pendingIntent);
-        Toast.makeText(this, "Created", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "ALARM Created", Toast.LENGTH_LONG).show();
+
+
     }
 
     private void init() {
@@ -123,7 +161,11 @@ public class AddNoteActivity extends AppCompatActivity {
             String priorityText = spinner.getSelectedItem().toString();
             MainActivity.getDB().execSQL("insert into Note(Title, Description, priority) values(?,?,?)", new String[]{titletext, descriptionText, priorityText});
             Toast.makeText(this, "Note was successfully Added", Toast.LENGTH_SHORT).show();
+         //**********************************************************************
 
+
+
+//*****************************************************************************************
             startActivity(new Intent(this, MainActivity.class));
 
         } else {
