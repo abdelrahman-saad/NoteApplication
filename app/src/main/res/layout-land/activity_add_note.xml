@@ -13,10 +13,11 @@
         android:id="@+id/noteDescText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="ADD NOTE"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,13 +26,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="Title "
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteDescText" />
 
@@ -39,7 +39,7 @@
         android:id="@+id/noteDescriptionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description "
@@ -53,7 +53,6 @@
         android:id="@+id/spinner"
         android:layout_width="206dp"
         android:layout_height="47dp"
-        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="@+id/noteDescriptionView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/noteDescriptionView"
@@ -63,12 +62,12 @@
         android:id="@+id/addNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:onClick="addNote"
         android:text="Add Note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -76,54 +75,49 @@
         android:layout_width="187dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="40dp"
         android:onClick="SetTime"
         android:text="Set timer"
+        app:layout_constraintEnd_toStartOf="@+id/noteTitleView"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/setdate"
         android:layout_width="160dp"
         android:layout_height="46dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="28dp"
         android:onClick="SetDate"
         android:text="Set date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.233"
-        app:layout_constraintStart_toEndOf="@+id/Settimer"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <TextView
-        android:id="@+id/Time"
-        android:layout_width="44dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/Settimer"
+        app:layout_constraintStart_toStartOf="@+id/Settimer"
         app:layout_constraintTop_toBottomOf="@+id/Settimer" />
 
     <TextView
+        android:id="@+id/Time"
+        android:layout_width="185dp"
+        android:layout_height="36dp"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <TextView
         android:id="@+id/Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="108dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setdate" />
+        android:layout_width="173dp"
+        android:layout_height="34dp"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/Time"
+        app:layout_constraintTop_toBottomOf="@+id/Time" />
 
     <Button
         android:id="@+id/Setalarm"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="164dp"
+        android:layout_width="198dp"
+        android:layout_height="54dp"
         android:onClick="SetAlarm"
         android:text="Set alarm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintEnd_toEndOf="@+id/Settimer"
+        app:layout_constraintStart_toStartOf="@+id/Settimer"
+        app:layout_constraintTop_toBottomOf="@+id/setdate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
