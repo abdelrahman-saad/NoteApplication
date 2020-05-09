@@ -1,9 +1,11 @@
 package com.example.noteapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.LauncherActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -102,9 +105,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // initialize list Adapter
 
-        listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,titlelist);
+        listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,titlelist){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                if(list.get(position).getPriority().equals("HIGH")){
+                    view.setBackgroundColor(getColor(android.R.color.holo_red_light));
+                }else if(list.get(position).getPriority().equals("MID")){
+                    view.setBackgroundColor(getColor(android.R.color.holo_blue_light));
+                }else if(list.get(position).getPriority().equals("LOW")){
+                    view.setBackgroundColor(getColor(android.R.color.holo_green_light));
+                }
+                return view;
+            }
+        };
         listView = findViewById(R.id.listview);
         listView.setAdapter(listAdapter);
+
         listView.setOnItemLongClickListener(this);
         listView.setOnItemClickListener(this);
         Log.d(TAG, "init: Success");
